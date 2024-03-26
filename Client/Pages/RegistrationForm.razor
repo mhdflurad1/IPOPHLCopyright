@@ -11,7 +11,7 @@
 
 <PageTitle>Trademark - Trademark Application</PageTitle>
 
-<EditForm Model="@trademarkModel" OnValidSubmit="@HandleValidSubmit" OnSubmit="Submit">
+<EditForm Model="@trademarkModel" OnValidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
     
     <div class="title-tm">
@@ -755,9 +755,6 @@
     {
         trademarkModels.Add(new TrademarkModel());
     }
-
-    bool submitted = false;
-    private void Submit() => submitted = true;
 
     void HandleValidSubmit()
     {
