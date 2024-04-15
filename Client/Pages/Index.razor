@@ -7,6 +7,8 @@
 @using System.ComponentModel.DataAnnotations;
 @using System.Collections.Generic;
 @using System.Threading.Tasks;
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 
 <PageTitle>IPOPHL | BCRRR Registration Form</PageTitle>
 
@@ -449,14 +451,14 @@
                             </div>
 
                             <div class="col-2 mt-2">
-                                <SfDropDownList @bind-Value="@copyrightmodel.ApplicantMaritalStatus" style="height:57px" TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
+                                <SfDropDownList @bind-Value="@copyrightmodel.ACPMaritalStatus" style="height:57px" TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
                                                 PopupWidth="auto" Placeholder="Martial Status" DataSource="@MaritalStatusList">
                                     <DropDownListFieldSettings Value="MaritalStatusID" Text="MaritalStatusName"></DropDownListFieldSettings>
                                 </SfDropDownList>
                             </div>
 
                             <div class="col-2 mt-2">
-                                <SfDropDownList @bind-Value="@copyrightmodel.ApplicantGender" style="height:57px" TValue="string" TItem="GenderDataModel" PopupHeight="auto"
+                                <SfDropDownList @bind-Value="@copyrightmodel.ACPGender" style="height:57px" TValue="string" TItem="GenderDataModel" PopupHeight="auto"
                                                 PopupWidth="auto" Placeholder="Gender" DataSource="@GenderList">
                                     <DropDownListFieldSettings Value="GenderID" Text="GenderName"></DropDownListFieldSettings>
                                 </SfDropDownList>
@@ -523,12 +525,8 @@
                     </div>
                         <!--add another co-author next page (supplemental form) add c# and js codings-->
                         <div class="row mb-1 mt-3">
-                            <div class="col-3">
-                                <button type="button"
-                                        class="button-addCoAuthor btn btn-orange"
-                                        id="addCoAuthor">
-                                    + Add Co-Author/Creator/Performer
-                                </button>
+                            <div class="col-3" @onclick="toSupplementalForm">
+                                <button class="button-addCoAuthor btn btn-orange"> + Add Co-Author/Creator/Performer</button>
                             </div>
                         </div>
                     </div>
@@ -947,7 +945,12 @@
 
         //[Required]
         public string NPL0ffice { get; set; }
+
+        //[Required] Copy of Author/Creator/Performer Information
+        public string ACPMaritalStatus { get; set; } = null;
         
+        //[Required] Copy of Author/Creator/Performer Information
+        public string ACPGender { get; set; } = null;
 
     }
     CopyrightModel copyrightmodel = new CopyrightModel();
@@ -1004,6 +1007,8 @@
     {
         public string MaritalStatusID { get; set; }
         public string MaritalStatusName { get; set; }
+        
+
     }
     List<MaritalStatusDataModel> MaritalStatusList = new List<MaritalStatusDataModel> {
         new MaritalStatusDataModel() { MaritalStatusID = "MS1", MaritalStatusName = "Single" },
@@ -1153,4 +1158,16 @@
         new NPLOfficeModel() { NPLOfficeID = "NPL10", NPLOfficeName = "Office of the Director" },
        
     };
+}
+
+@code{
+    private async Task RedirectToExternalUrl(string url)
+    {
+        await JSRuntime.InvokeVoidAsync("window.open", url, "_blank");
+    }
+    private async Task toSupplementalForm()
+    {
+        string externalUrl = "/copyright-supplemental-form";
+        await RedirectToExternalUrl(externalUrl);
+    }
 }
