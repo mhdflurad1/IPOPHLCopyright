@@ -1,40 +1,66 @@
 html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+.nav-bar {
+    font-size: 14px;
     font-family: 'Century Gothic';
+}
+
+.bcrr-text {
+    font-size: 16px;
+    font-family: 'Century Gothic';
+}
+
+.nav-bar1 {
+    font-size: 10px;
+    font-family: 'Century Gothic';
+}
+
+.title-text {
+    margin-top: 5px;
+    font-size: 30px;
+}
+
+.subtitle-text {
+    font-size: 20px;
+}
+
+.text {
+    font-size: 16px;
+}
+
+.sub-text {
+    font-size: 12px;
+}
+
+.application-form {
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 h1:focus {
     outline: none;
 }
 
-.img-ipophl-logo {
-    width: 70px;
-    height: auto;
-}
-
-.img-tm{
-    width: 50px;
-    height: auto;
-}
-
-.nav-bar1 {
-    font-size: 15px;
-}
-
-.nav-bar2 {
-    font-size: 11px;
-}
-
-.nav-bar3 {
-    font-size: 10px;
-}
-
 .nav-bar-small-line {
     margin-top: 5px;
     margin-bottom: 5px;
     height: 1px;
-    width: 50%;
+    width: 100%;
     border-top: 1px solid black;
 }
+
+.underlined-input {
+    border: none;
+    border-bottom: 1px solid #000;
+    background: transparent;
+    outline: none;
+    box-shadow: none;
+    box-sizing: border-box;
+}
+
 
 a, .btn-link {
     color: #0071c1;
@@ -42,15 +68,17 @@ a, .btn-link {
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #1c1d1f;
+    border-color: #1c1d1f;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-
+.content {
+    padding-top: 0.5rem;
+}
 
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
@@ -128,4 +156,25 @@ a, .btn-link {
 
 code {
     color: #c02d76;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.label-margin {
+    margin: 1px;
+}
+
+.sub-text label {
+    margin: 5px;
+}
+
+.form-size {
+    width: 500px; /* Adjust as needed */
+    height: 300px; /* Adjust as needed */
+}
+
+accord {
+    background-color: #fff;
 }

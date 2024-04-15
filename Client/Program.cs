@@ -1,5 +1,5 @@
 using Blazored.Toast;
-using IPOPHLTrademark.Client;
+using IPOPHLCopyright.Client;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Syncfusion.Blazor;

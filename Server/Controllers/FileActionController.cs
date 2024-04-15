@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Hosting;
 
 
 namespace BlazorFileUploadJWT.Server.Controllers

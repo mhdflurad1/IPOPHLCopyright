@@ -1,11 +1,13 @@
-﻿body {
-    padding: 2px;
-    font-family: 'Century Gothic';
+﻿.accordion-button:not(.collapsed) {
+    background-color: #ef6a31;
+    color: white;
 }
 
+.btn-orange{
+    background-color: #ef6a31;
+    color: white;
+}
 
-.card-tm {
-    background-repeat: no-repeat;
-    background-position: top;
-    background-size: 80px;
+.form-height {
+    height: 50px; /* Adjust this value as per your requirement */
 }

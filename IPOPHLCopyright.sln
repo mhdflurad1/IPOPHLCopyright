@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPOPHLTrademark.Server", "Server\IPOPHLTrademark.Server.csproj", "{73264455-3445-4A4E-94DD-065F64BEE0F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPOPHLCopyright.Server", "Server\IPOPHLCopyright.Server.csproj", "{73264455-3445-4A4E-94DD-065F64BEE0F8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPOPHLTrademark.Client", "Client\IPOPHLTrademark.Client.csproj", "{2CB91DBC-EF23-4232-98EA-BCB691004AD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPOPHLCopyright.Client", "Client\IPOPHLCopyright.Client.csproj", "{2CB91DBC-EF23-4232-98EA-BCB691004AD8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPOPHLTrademark.Shared", "Shared\IPOPHLTrademark.Shared.csproj", "{80DEE3C4-DF13-46D6-B231-E8FE382FCEB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IPOPHLCopyright.Shared", "Shared\IPOPHLCopyright.Shared.csproj", "{80DEE3C4-DF13-46D6-B231-E8FE382FCEB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

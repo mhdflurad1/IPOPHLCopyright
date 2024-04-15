@@ -1,0 +1,10 @@
+﻿.card{
+    align-content: center;
+}
+.card-header{
+    height: 40px;
+    background-color: #070707;
+}
+.header-text{
+    color: #f9f9f9;
+}

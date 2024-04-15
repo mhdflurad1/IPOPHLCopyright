@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\IPOPHLTrademark.Shared.csproj" />
+    <ProjectReference Include="..\Shared\IPOPHLCopyright.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

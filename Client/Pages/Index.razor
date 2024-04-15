@@ -1,45 +1,1161 @@
 ﻿@page "/"
-@using Syncfusion.Blazor
-@using Syncfusion.Blazor.Notifications
-@using Syncfusion.Blazor.Data
-@using Syncfusion.Blazor.DropDowns
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Data;
+@using Syncfusion.Blazor.Inputs;
+@using Blazored.Toast.Services
+@using System.ComponentModel.DataAnnotations;
 @using System.Collections.Generic;
-@using System.Globalization;
-@using System.IO;
+@using System.Threading.Tasks;
 
-<PageTitle>Trademark - Fillable Forms</PageTitle>
+<PageTitle>IPOPHL | BCRRR Registration Form</PageTitle>
 
-        <div class="row">
-            <div class="col">
-                <div class="card card-tm-rf">
-                    <a href="/Pages/RegistrationForm.razor"></a>
-                    <div>Registration Form</div>
-                </div>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col-4">
-                <div class="card card-tm" To="trademark-declaration-of-actual-use">
-                    <div>Declaration of Actual Use</div>
-
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card card-tm">
-                    <div>Request for Renewal</div>
-                    
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card card-tm">
-                    <div>Request for Revival in Publication</div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
+<!--Transaction Form Title-->
+<div class="text-center text-uppercase title-text fw-bold">Transaction Form</div>
+<div class="text-center fw-normal fst-italic sub-text">
+    NOTE: Use “N/A” for fields that are not applicable.
+    Recordation of copyright transfer/assignment, mortgage, etc. requires initial recognition, if applicable.
 </div>
 
+<!--Application Form-->
+<EditForm Model="@copyrightmodel" OnInvalidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="accordion application-form" id="applicationForm">
+        <!--Type of Application-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne"
+                        aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                    Type of Application
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne"
+                 class=accordion-collapse collapse show>
+                <div class="accordion-body">
+                    <div class="container">
+                        <div class="container-fluid row d-flex">
+                            <div class="col-sm-2">
+                                <div class="fw-bold text">Type of Application</div>
+                                <div class="fst-italic sub-text">(Please tick boxes that apply)</div>
+                            </div>
+                            <div class="col-sm-4 mt-1 mb-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckCRRR">
+                                    <label class="form-check-label" for="flexCheckCRRR">
+                                        Copyright / Related Rights Registration
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckAPWR">
+                                    <label class="form-check-label" for="flexCheckAPWR">
+                                        Anonymous / Pseudonymous Work Registration
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckCECR">
+                                    <label class="form-check-label" for="flexCheckCECR">
+                                        Correction of Entry in Copyright Registry
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckRRR">
+                                    <label class="form-check-label" for="flexCheckRRR">
+                                        Registration of Resale Rights
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckCTCCC">
+                                    <label class="form-check-label" for="flexCheckCTCCC">
+                                        Certified True Copy of Copyright Certificate
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 mt-1 mb-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckRCT">
+                                    <label class="form-check-label" for="flexCheckRCT">
+                                        Recordation of Copyright Transfer / Assignment, License, Mortgage, Sale, etc.
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckRR">
+                                    <label class="form-check-label" for="flexCheckRR">
+                                        Reconstitution of Records (for lost original certificate of copyright registration)
+                                    </label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckOtherCerts">
+                                            <label class="form-check-label" for="flexCheckOtherCerts">
+                                                Other Certifications:
+                                            </label>
+                                        </div>
+                                        <div class="col form-group">
+                                            <label for="OtherCertsInput"></label>
+                                            <input class="underlined-input" type="text" id="OtherCertsInput" name="OtherCertsInput">
+                                        </div>
+                                    </div>
+                                </div> <br />
+                                <div class="form-check form-check-inline">
+                                    <div class="row">
+                                        <div class="col-auto">
+                                            <input class="form-check-input" type="checkbox" value="" id="flexCheckNoOfCerts">
+                                            <label class="form-check-label" for="flexCheckNoOfCerts">
+                                                No. of Certificates:
+                                            </label>
+                                        </div>
+                                        <div class="col form-group">
+                                            <label for="NoOfCerts"></label>
+                                            <input class="underlined-input" type="text" id="NoOfCerts" name="NoOfCerts" placeholder="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Submission Type-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseTwo">
+                    Submission Type
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container">
+                        <div class="row container-fluid">
+                            <div class="col-2">
+                                <div class="fw-bold text">Submission Type</div>
+                                <div class="fst-italic sub-text">(Please tick boxes that apply)</div>
+                            </div>
+                            <div class="col-5">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckEFilling">
+                                    <label class="form-check-label" for="flexCheckCEFilling">
+                                        Electronic Filing (email submission)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <!--add if else condition if this is chose, auto-checked, disabled other checkboxes-->
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                                    <label class="form-check-label" for="flexCheckThroughIPS0">Through IPSO (Indicate IPSO-Region)</label>
+                                    <!--add dropdown for list using c#-->
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckflexCheckThroughITSO">
+                                    <label class="form-check-label" for="flexCheckflexCheckThroughITSO">
+                                        Through ITSO
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckSingleFiling">
+                                    <label class="form-check-label" for="flexCheckSingleFiling">
+                                        Single Filing
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckBulkFiling">
+                                    <label class="form-check-label" for="flexCheckBulkFiling">
+                                        Bulk Filing
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Type of Applicant-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseThree"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseThree">
+                    Type of Applicant
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container">
+                        <div class="row container-fluid">
+                            <div class="col-2">
+                                <div class="fw-bold text">Type of Applicant</div>
+                                <div class="fst-italic sub-text">(Please tick boxes that apply)</div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckAuthorCreator">
+                                    <label class="form-check-label" for="flexCheckAuthorCreator">
+                                        Author / Creator / Related Rights Holder
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckAgent">
+                                    <label class="form-check-label" for="flexCheckAgent">
+                                        Agent
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckCRClaimant">
+                                    <label class="form-check-label" for="flexCheckCRClaimant">
+                                        Copyright Claimant / Transferee / Assignee / Mortgagee
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckLicensee">
+                                    <label class="form-check-label" for="flexCheckLicensee">
+                                        Licensee
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexChecHeir">
+                                    <label class="form-check-label" for="flexCheckHeir">
+                                        Heir (s)
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckNewOwner">
+                                    <label class="form-check-label" for="flexCheckNewOwner">
+                                        New Owner (Resale)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Applicant Information-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseFour"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseFour">
+                    Applicant Information
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseFour"
+                 class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="form-floating">
+                                    <InputText @bind-Value="@copyrightmodel.ApplicantLName" placeholder="Last Name" class="form-control" id="applicantLName" required />
+                                    <label for="applicantFName">Surname</label>
+                                    <ValidationMessage For="@(() => copyrightmodel.ApplicantLName)" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating">
+                                    <InputText @bind-Value="@copyrightmodel.ApplicantFName" placeholder="First Name" class="form-control" id="applicantFName" required />
+                                    <label for="applicantFName">First Name</label>
+                                    <ValidationMessage For="@(() => copyrightmodel.ApplicantFName)" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating mb-2">
+                                    <InputText @bind-Value="@copyrightmodel.ApplicantMName" placeholder="Middle Name" class="form-control" id="applicantMName" required />
+                                    <label for="applicantMName">Middle Name</label>
+                                    <ValidationMessage For="@(() => copyrightmodel.ApplicantMName)" />
+                                </div>
+                            </div>
+                            <div class="col">
+                                <!--if indiivdual applicant, disable the input field for Name of Company/Government Agency/School), command auto " " for db-->
+                                <div class="form-check mt-3">
+                                    <input class="form-check-input" type="checkbox" value="individual" id="flexCheckIndividAppli" @onclick="() => ToggleIndividualApplicant(true)" />
+                                    <label class="form-check-label" for="flexCheckIndividAppli">
+                                        Individual Applicant?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <InputText @bind-Value="@copyrightmodel.NameCompanyCorpGovASch" placeholder="Name of Company / Corporation / Government Agency / School" class="form-control" id="companyCorpGovAgSch"
+                                               disabled="@isIndividualSelected" />
+                                    <label for="companyCorpGovAgSch">Name of Company / Corporation / Government Agency / School</label>
+                                </div>
+                            </div>
+                            <div class="col mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@copyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Small Entity (Assets less than 100M)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@copyrightmodel.IsBigType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Big Entity (Assets more than 100M)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-2 mb-3">
+                            <div class="col-2 mt-2">
+                                <SfDatePicker @bind-Value="@copyrightmodel.DateValue" style="height:57px" TValue="DateTime?" Placeholder="Date of Birth"></SfDatePicker>
+                            </div>
+
+                            <div class="col-2 mt-2">
+                                <SfDropDownList @bind-Value="@copyrightmodel.ApplicantMaritalStatus" style="height:57px" TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
+                                                PopupWidth="auto" Placeholder="Martial Status" DataSource="@MaritalStatusList">
+                                    <DropDownListFieldSettings Value="MaritalStatusID" Text="MaritalStatusName"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+
+                            <div class="col-2 mt-2">
+                                <SfDropDownList @bind-Value="@copyrightmodel.ApplicantGender" style="height:57px" TValue="string" TItem="GenderDataModel" PopupHeight="auto"
+                                                PopupWidth="auto" Placeholder="Gender" DataSource="@GenderList">
+                                    <DropDownListFieldSettings Value="GenderID" Text="GenderName"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                            
+                            <div class="col-3 mt-2">
+                                    <SfDropDownList TValue="string" TItem="NationalityDataModel" style="height:57px" PopupHeight="auto"
+                                                    PopupWidth="auto" Placeholder="Nationality" DataSource="@NationalityListModel">
+                                        <DropDownListFieldSettings Value="NationalityId" Text="NationalityName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => copyrightmodel.ApplicantNationality)" />
+                                </div>
+
+                            <div class="col-3 mt-2">
+                                    <SfDropDownList TValue="string" TItem="CountryDataModel" style="height:57px" PopupHeight="auto"
+                                                    PopupWidth="auto " Placeholder="Country of Residence" DataSource="@CountryListModel">
+                                        <DropDownListFieldSettings Value="CountryId" Text="CountryName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => copyrightmodel.ApplicantCountry)" />
+                                </div>
+                        </div>
+                        <div class="row mb-2">
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantAddress" placeholder="Address">
+                                <label for="applicantAddress">Address (Complete Street info, village, subdivision, barangay)</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <SfDropDownList TValue="string" TItem="CityDataModel" style="height:57px" PopupHeight="auto"
+                                            PopupWidth="auto " Placeholder="Municipality / City" DataSource="@CityListModel">
+                                <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                            <ValidationMessage For="@(() => copyrightmodel.ApplicantCity)" />
+                        </div>
+                    </div>
+                        <div class="row mb-2 mt-3">
+                         <!--ilagay ito sa code -->
+                            <div class="col-4">
+                            <SfDropDownList TValue="string" TItem="CityDataModel" PopupHeight="auto" style="height:56px"
+                                            PopupWidth="auto " Placeholder="Province / State" DataSource="@CityListModel" >
+                                <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                            <ValidationMessage For="@(() => copyrightmodel.ApplicantCity)" />
+                        </div>
+                        <div class="col-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantZipCode" placeholder="Zip Code">
+                                <label for="applicantZipCode">Zip Code</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantMobContNo" placeholder="Mobile/Contact No.">
+                                <label for="applicantMobContNo">Mobile/Contact No.</label>
+                            </div>
+                        </div>
+                          <div class="col-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantEmail" placeholder="Email Address">
+                                <label for="applicantEmail">Email Address</label>
+                            </div>
+                          </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Author/Creator/Performer Information-->
+        <!--C# code for auto fill when user checked box the author on type of applicant-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseFive"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseFive">
+                    Author/Creator/Performer Information
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseFive"
+                 class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="authorSname" placeholder="Surname">
+                                    <label for="authorSname">Surname</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="authorFName" placeholder="First Name">
+                                    <label for="authorFName">First Name</label>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="authorMName" placeholder="Middle Name">
+                                    <label for="applicantMName">Middle Name</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt-2 mb-3">
+                            <div class="col-2 mt-2">
+                                <SfDatePicker @bind-Value="@copyrightmodel.DateValue" style="height:57px" TValue="DateTime?" Placeholder="Date of Birth"></SfDatePicker>
+                            </div>
+
+                            <div class="col-2 mt-2">
+                                <SfDropDownList @bind-Value="@copyrightmodel.ApplicantMaritalStatus" style="height:57px" TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
+                                                PopupWidth="auto" Placeholder="Martial Status" DataSource="@MaritalStatusList">
+                                    <DropDownListFieldSettings Value="MaritalStatusID" Text="MaritalStatusName"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+
+                            <div class="col-2 mt-2">
+                                <SfDropDownList @bind-Value="@copyrightmodel.ApplicantGender" style="height:57px" TValue="string" TItem="GenderDataModel" PopupHeight="auto"
+                                                PopupWidth="auto" Placeholder="Gender" DataSource="@GenderList">
+                                    <DropDownListFieldSettings Value="GenderID" Text="GenderName"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                            
+                            <div class="col-3 mt-2">
+                                    <SfDropDownList TValue="string" TItem="NationalityDataModel" style="height:57px" PopupHeight="auto"
+                                                    PopupWidth="auto" Placeholder="Nationality" DataSource="@NationalityListModel">
+                                        <DropDownListFieldSettings Value="NationalityId" Text="NationalityName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => copyrightmodel.ApplicantNationality)" />
+                                </div>
+
+                            <div class="col-3 mt-2">
+                                    <SfDropDownList TValue="string" TItem="CountryDataModel" style="height:57px" PopupHeight="auto"
+                                                    PopupWidth="auto " Placeholder="Country of Residence" DataSource="@CountryListModel">
+                                        <DropDownListFieldSettings Value="CountryId" Text="CountryName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => copyrightmodel.ApplicantCountry)" />
+                                </div>
+                        </div>
+                        <div class="row mb-2">
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantAddress" placeholder="Address">
+                                <label for="applicantAddress">Address (Complete Street info, village, subdivision, barangay)</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <SfDropDownList TValue="string" TItem="CityDataModel" style="height:57px" PopupHeight="auto"
+                                            PopupWidth="auto " Placeholder="Municipality / City" DataSource="@CityListModel">
+                                <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                            <ValidationMessage For="@(() => copyrightmodel.ApplicantCity)" />
+                        </div>
+                    </div>
+                        <div class="row mb-2 mt-3">
+                         <!--ilagay ito sa code -->
+                            <div class="col-4">
+                            <SfDropDownList TValue="string" TItem="CityDataModel" PopupHeight="auto" style="height:56px"
+                                            PopupWidth="auto " Placeholder="Province / State" DataSource="@CityListModel" >
+                                <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                            <ValidationMessage For="@(() => copyrightmodel.ApplicantCity)" />
+                        </div>
+                        <div class="col-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantZipCode" placeholder="Zip Code">
+                                <label for="applicantZipCode">Zip Code</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantMobContNo" placeholder="Mobile/Contact No.">
+                                <label for="applicantMobContNo">Mobile/Contact No.</label>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicantEmail" placeholder="Email Address">
+                                <label for="applicantEmail">Email Address</label>
+                            </div>
+                        </div>
+                    </div>
+                        <!--add another co-author next page (supplemental form) add c# and js codings-->
+                        <div class="row mb-1 mt-3">
+                            <div class="col-3">
+                                <button type="button"
+                                        class="button-addCoAuthor btn btn-orange"
+                                        id="addCoAuthor">
+                                    + Add Co-Author/Creator/Performer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--Co-Author/Creator/Performer Information-->
 
 
+
+
+
+
+
+
+
+
+
+
+
+        <!--Work/Creation/Performance Information-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseSix"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseSix">
+                    Work/Creation/Performance Information
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseSix"
+                 class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container-fluid">
+                         <!--next input fields here-->
+                    <div class="row mb-2">
+                        <div class="col-5 mt-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="applicant" placeholder="Title">
+                                <label for="applicant">Title</label>
+                            </div>
+                        </div>
+
+                        <div class="col-2 mt-2">
+                                <SfDatePicker @bind-Value="@copyrightmodel.DateValue" style="height:57px" TValue="DateTime?" Placeholder="Date of Creation / Performance /Broadcast "></SfDatePicker>
+                        </div>
+                        <!--palitan ang data source at lagyan ng model hindi sya ma detect-->
+                         <div class="col-3 mt-2">
+                                <SfDropDownList @bind-Value="@copyrightmodel.PlaceCreation" style="height:57px" TValue="string" TItem="PlaceCreationModel" PopupHeight="auto"
+                                                PopupWidth="auto" Placeholder="Place of Creation / Performance /Broadcast" DataSource="@PlaceCreationList">
+                                    <DropDownListFieldSettings Value="PlaceCreationID" Text="PlaceCreationName"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                         </div>
+                         <div class="col-2 mt-2">
+                                <SfDropDownList @bind-Value="@copyrightmodel.ClassificationWork" style="height:57px" TValue="string" TItem="ClassificationWorkModel" PopupHeight="auto"
+                                                PopupWidth="auto" Placeholder="Classification of Work" DataSource="@ClassificationWorkList">
+                                    <DropDownListFieldSettings Value="ClassificationWorkID" Text="ClassificationWorkName"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                         </div>
+
+                    </div>
+
+
+                    <div class="row mb-2 mt-3 ">
+                        <div class="col-3">
+                            <label>
+                                     Is the work a local or foreign submission?
+                            </label>
+                        </div>
+                        <div class="col">
+                            <label>
+                                Copyright registered with the IPOPHL or the National Library of the Philippines (NLP)?
+                            </label>
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-2">
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Local
+                            </label>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Foreign
+                            </label>
+                        </div>
+
+                            <div class="offset-1 col-1" style="width:90px;">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                No
+                            </label>
+                        </div>
+                            <div class="col-2" style="width:150px;">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                With IPOPHL
+                            </label>
+                        </div>
+                        <div class="col-2" style="width:130px;">
+                             <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                             <label class="form-check-label" for="flexCheckThroughIPS0">
+                                    With NPL
+                             </label>
+                        </div>
+                            <div class="col-2" style="width:260px;">
+                                <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                                <label class="form-check-label" for="flexCheckThroughIPS0">
+                                    Yes (if yes, select which office)
+                                </label>
+                            </div>
+
+                        <div class="col-2">
+                                <SfDropDownList @bind-Value="@copyrightmodel.NPL0ffice" style="width=50px" TValue="string" TItem="NPLOfficeModel" PopupHeight="auto"
+                                                PopupWidth="auto" Placeholder="Select Office" DataSource="@NPLOfficeList">
+                                    <DropDownListFieldSettings Value="NPLOfficeID" Text="NPLOfficeName"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                         </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col=2">
+                            <hr class="nav-bar-small-line" />
+                        </div>
+                    </div>
+
+
+                    <div class="row mt-4">
+                        <div class="col-5">
+                            <label>Is the work <b>published</b>? (If applicable)</label>
+                        </div>
+
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                No
+                            </label>
+                        </div>
+
+                        <div class="col-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Yes (Indicate publisher)
+                            </label>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="form">
+                                <input type="text" class="form-control" id="applicant">
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-5 ">
+                            <label>Is this a <b>derivative</b> work? (If applicable)</label>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                No
+                            </label>
+                        </div>
+
+                        <div class="col-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Yes (Indicate publisher)
+                            </label>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="form">
+                                <input type="text" class="form-control" id="applicant">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-5 ">
+                            <label>Is the work derived from an <b>indigenous knowledge & system & practice</b> (IKSP)</label>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                No
+                            </label>
+                        </div>
+
+                        <div class="col-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Yes (Indicate publisher)
+                            </label>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="form">
+                                <input type="text" class="form-control" id="applicant">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-5 ">
+                            <label>Is the work a product of a <b>government funded research project</b>?</label>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                No
+                            </label>
+                        </div>
+
+                        <div class="col-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Yes (Indicate publisher)
+                            </label>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="form">
+                                <input type="text" class="form-control" id="applicant">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-5 ">
+                            <label>Is the work part of the <b>regular duties of the author as an employee</b>? (if applicable)</label>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                No
+                            </label>
+                        </div>
+                        <div class="col-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Yes (Indicate publisher)
+                            </label>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="form">
+                                <input type="text" class="form-control" id="applicant">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-5 ">
+                            <label>Is the Author/creator/performer claiming copyright/related right for the entire work?</label>
+                        </div>
+                        <div class="col-1">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                No
+                            </label>
+                        </div>
+
+                        <div class="col-2">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckThroughIPS0">
+                            <label class="form-check-label" for="flexCheckThroughIPS0">
+                                Yes (Indicate publisher)
+                            </label>
+                        </div>
+
+                        <div class="col-4">
+                            <div class="form">
+                                <input type="text" class="form-control" id="applicant">
+                            </div>
+                        </div>
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+        </div> <!--End of Work/Creation/Performance Information-->
+
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseSeven"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseSeven">
+                    Documents Submitted
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container">
+                        <div class="row container-fluid">
+                            @foreach (var document in SubmitDocumentTypeList)
+                            {
+                                <div class="col-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="" id="@document.DocumentTypeID">
+                                        <label class="form-check-label" for="@document.DocumentTypeID">
+                                            @document.DocumentType
+                                        </label>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--End of the Accordion-->
+        <div class="row">
+            <div class="col-1 m-5">
+                <button type="button"
+                        class="button-submit btn btn-orange"
+                        id="FinalSubmit">
+                    Clear all
+                </button>
+            </div>
+
+            <div class="col-1 m-5">
+                <button type="button"
+                        class="button-submit btn btn-orange"
+                        id="FinalSubmit">
+                    Submit
+                </button>
+            </div>
+        </div>
+
+    </div>
+</EditForm>
+
+@code {
+    class CopyrightModel
+    {
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantLName { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantFName { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantMName { get; set; }
+        //[Required]
+        public string ApplicantGender { get; set; } = null;
+        public string ApplicantMaritalStatus { get; set; } = null;
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantPosition { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string NameCompanyCorpGovASch { get; set; }
+        public bool IsSmallType { get; set; }
+        public bool IsBigType { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantAddress { get; set; }
+        public string ApplicantCountry { get; set; }
+        //public string ApplicantState { get; set; }
+        public string ApplicantCity { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantZipCode { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantMobNum { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantEmailAdd { get; set; }
+        ////[Required]
+        public string ApplicantNationality { get; set; }
+
+
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RALName { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAFName { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAMName { get; set; }
+        ////[Required]
+        //public GenderSelect? RAGender { get; set; } = null;
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAPosition { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAAddress { get; set; }
+        //public string RACountry { get; set; }
+        //public string RAState { get; set; }
+        //public string RACity { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAZipCode { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAMobNum { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAEmailAdd { get; set; }
+        ////[Required]
+        public string RANationality { get; set; }
+
+        ////[Required]
+        public string NClass { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string GSComments { get; set; }
+
+        ////[Required]
+        public string ApplicantType { get; set; }
+        public bool IsIndividual { get; set; }
+
+        //[Required]
+        public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
+
+        //[Required]
+        public string PlaceCreation { get; set; }
+
+        //[Required]
+        public string ClassificationWork { get; set; }
+
+        //[Required]
+        public string IPSO { get; set; }
+
+        //[Required]
+        public string NPL0ffice { get; set; }
+        
+
+    }
+    CopyrightModel copyrightmodel = new CopyrightModel();
+
+    bool isIndividualSelected = false;
+    void ToggleIndividualApplicant(bool isIndividual)
+    {
+        isIndividualSelected = isIndividual;
+    }
+
+    void HandleValidSubmit()
+    {
+        // Handle form submission
+    }
+
+}
+
+@code {
+    public class SubmitDocumentTypeModel
+    {
+        public string DocumentTypeID { get; set; }
+        public string DocumentType { get; set; }
+        public string Description { get; set; }
+    }
+
+    public List<SubmitDocumentTypeModel> SubmitDocumentTypeList { get; set; } = new List<SubmitDocumentTypeModel>
+    {
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT1", DocumentType = "Electronic copy/photos of the work", Description = "Description for Electronic copy/photos of the work" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT2", DocumentType = "Special Power of Attorney (for Agents)", Description = "Description for Special Power of Attorney (for Agents)" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT3", DocumentType = "Government ID", Description = "Description for Electronic copy/photos of the work" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT4", DocumentType = "Board Resolution", Description = "Description for Special Power of Attorney (for Agents)" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT5", DocumentType = "Deed of Assignment", Description = "Description for Electronic copy/photos of the work" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT6", DocumentType = "Secretary’s Certificate", Description = "Description for Special Power of Attorney (for Agents)" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT7", DocumentType = "Board Resolution", Description = "Description for Special Power of Attorney (for Agents)" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT8", DocumentType = "Deed of Assignment", Description = "Description for Electronic copy/photos of the work" },
+        new SubmitDocumentTypeModel { DocumentTypeID = "DT9", DocumentType = "Others (please specify)", Description = "Description for Special Power of Attorney (for Agents)" },
+    };
+}
+
+@code {
+    public class GenderDataModel
+    {
+        public string GenderID { get; set; }
+        public string GenderName { get; set; }
+    }
+    List<GenderDataModel> GenderList = new List<GenderDataModel> {
+        new GenderDataModel() { GenderID = "Gender1", GenderName = "Male" },
+        new GenderDataModel() { GenderID = "Gender2", GenderName = "Female" },
+    };
+}
+
+@code {
+    public class MaritalStatusDataModel
+    {
+        public string MaritalStatusID { get; set; }
+        public string MaritalStatusName { get; set; }
+    }
+    List<MaritalStatusDataModel> MaritalStatusList = new List<MaritalStatusDataModel> {
+        new MaritalStatusDataModel() { MaritalStatusID = "MS1", MaritalStatusName = "Single" },
+        new MaritalStatusDataModel() { MaritalStatusID = "MS2", MaritalStatusName = "Married" },
+        new MaritalStatusDataModel() { MaritalStatusID = "MS3", MaritalStatusName = "Separated" },
+        new MaritalStatusDataModel() { MaritalStatusID = "MS4", MaritalStatusName = "Divorced" },
+        new MaritalStatusDataModel() { MaritalStatusID = "MS5", MaritalStatusName = "Widowed" },
+    };
+}
+
+@code{
+    public class NationalityDataModel
+    {
+        public int NationalityID { get; set; }
+        public string NationalityName { get; set; }
+    }
+    List<NationalityDataModel> NationalityListModel = new List<NationalityDataModel>()
+    {
+      
+    };
+}
+
+@code {
+    public class PlaceCreationModel
+    {
+        public string PlaceCreationID { get; set; }
+        public string PlaceCreationName { get; set; }
+    }
+    List<PlaceCreationModel> PlaceCreationList = new List<PlaceCreationModel> {
+        new PlaceCreationModel() { PlaceCreationID = "PC1", PlaceCreationName = "City of Manila" },
+        new PlaceCreationModel() { PlaceCreationID = "PC2", PlaceCreationName = "Quezon City" },
+        new PlaceCreationModel() { PlaceCreationID = "PC3", PlaceCreationName = "Caloocan" },
+        new PlaceCreationModel() { PlaceCreationID = "PC4", PlaceCreationName = "Las Piñas" },
+        new PlaceCreationModel() { PlaceCreationID = "PC5", PlaceCreationName = "Makati" },
+		new PlaceCreationModel() { PlaceCreationID = "PC6", PlaceCreationName = "Malabon" },
+        new PlaceCreationModel() { PlaceCreationID = "PC7", PlaceCreationName = "Mandaluyong" },
+        new PlaceCreationModel() { PlaceCreationID = "PC8", PlaceCreationName = "Marikina" },
+        new PlaceCreationModel() { PlaceCreationID = "PC9", PlaceCreationName = "Muntinlupa" },
+        new PlaceCreationModel() { PlaceCreationID = "PC10", PlaceCreationName = "Navotas" },
+		new PlaceCreationModel() { PlaceCreationID = "PC11", PlaceCreationName = "Parañaque" },
+        new PlaceCreationModel() { PlaceCreationID = "PC12", PlaceCreationName = "Pasay" },
+        new PlaceCreationModel() { PlaceCreationID = "PC13", PlaceCreationName = "Pasig" },
+        new PlaceCreationModel() { PlaceCreationID = "PC14", PlaceCreationName = "Pateros" },
+        new PlaceCreationModel() { PlaceCreationID = "PC15", PlaceCreationName = "San Juan" },
+		new PlaceCreationModel() { PlaceCreationID = "PC16", PlaceCreationName = "Taguig" },
+        new PlaceCreationModel() { PlaceCreationID = "PC17", PlaceCreationName = "Valenzuela" },
+    };
+}
+
+@code{
+    public class CountryDataModel
+    {
+        public int CountryID { get; set; }
+        public string CountryName { get; set; }
+    }
+    List<CountryDataModel> CountryListModel = new List<CountryDataModel>()
+    {
+
+    };
+}
+@code {
+    public class CityDataModel
+    {
+        public int CityID { get; set; }
+        public string CityyName { get; set; }
+    }
+    List<CityDataModel> CityListModel = new List<CityDataModel>()
+    {
+
+    };
+}
+
+@code {
+    public class ClassificationWorkModel
+    {
+        public string ClassificationWorkID { get; set; }
+        public string ClassificationWorkName { get; set; }
+    }
+    List<ClassificationWorkModel> ClassificationWorkList = new List<ClassificationWorkModel> {
+        new ClassificationWorkModel() { ClassificationWorkID = "CW1", ClassificationWorkName = "A - Books, E-Books, Audio books, pamphlets,comics, novels, articles" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW2", ClassificationWorkName = "B - Periodicals, journals, diaries, newspaper,magazine, e-magazines" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW3", ClassificationWorkName = "C - Lectures, sermons, addresses, speeches,dissertations prepared for delivery" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW4", ClassificationWorkName = "D - Letters, circulars, encyclicals, emails, andother electronic messages" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW5", ClassificationWorkName = "E - Plays, operas, choreographies,pantomimes, magic routines, and othernovelty acts" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW6", ClassificationWorkName = "F - Musical compositions with or without lyrics" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW7", ClassificationWorkName = "G - Ornamental designs or models for articlesof manufacturer and industrial objects, and other works of alphabet arts" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW8", ClassificationWorkName = "H - Illustrations, maps, plans, sketches, charts,and three-dimensional works relative togeography, topography, architecture, or science" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW9", ClassificationWorkName = "I - Drawings or plastic works of a scientific andtechnical character" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW10", ClassificationWorkName = "J - Drawings or plastic works of a scientific and technical character " },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW11", ClassificationWorkName = "K - Photographic works including works produced by a process analogous to photography, lantern slides" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW12", ClassificationWorkName = "L - Audiovisual works and cinematographicworks and works produced by a process analogous to cinematography or any process for making audio visual recordings" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW13", ClassificationWorkName = "M - Pictorial illustrations and advertisements" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW14", ClassificationWorkName = "N - Computer programs and games" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW15", ClassificationWorkName = "O - Other literary, scholarly, scientific, and artistic works, including reports, studies, research, theses, and other academic papers, examinations, online courses, presentations" },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW16", ClassificationWorkName = "P - Sound recordings " },
+        new ClassificationWorkModel() { ClassificationWorkID = "CW17", ClassificationWorkName = "Q - Broadcast recordings" },
+    };
+}
+
+@code {
+    public class IPSOModel
+    {
+        public string IPSOID { get; set; }
+        public string IPSOName { get; set; }
+    }
+    List<IPSOModel> IPSOList = new List<IPSOModel> {
+        new IPSOModel() { IPSOID = "IPSO1", IPSOName = "DTI La Union, DOST La Union" },
+        new IPSOModel() { IPSOID = "IPSO2", IPSOName = "Bulacan" },
+        new IPSOModel() { IPSOID = "IPSO3", IPSOName = "Bataan" },
+        new IPSOModel() { IPSOID = "IPSO4", IPSOName = "Pangasinan" },
+        new IPSOModel() { IPSOID = "IPSO5", IPSOName = "Cavite" },
+        new IPSOModel() { IPSOID = "IPSO6", IPSOName = "Batangas" },
+        new IPSOModel() { IPSOID = "IPSO7", IPSOName = "Isabela" },
+        new IPSOModel() { IPSOID = "IPSO8", IPSOName = "Rizal" },
+        new IPSOModel() { IPSOID = "IPSO9", IPSOName = "Quezon" },
+        new IPSOModel() { IPSOID = "IPSO10", IPSOName = "Naga" },
+        new IPSOModel() { IPSOID = "IPSO11", IPSOName = "Bogo City" },
+        new IPSOModel() { IPSOID = "IPSO12", IPSOName = "Negros Occidental" },
+        new IPSOModel() { IPSOID = "IPSO13", IPSOName = "Moalboal" },
+        new IPSOModel() { IPSOID = "IPSO14", IPSOName = "Bohol" },
+        new IPSOModel() { IPSOID = "IPSO15", IPSOName = "Ormoc City" },
+        new IPSOModel() { IPSOID = "IPSO16", IPSOName = "Negros Oriental" },
+        new IPSOModel() { IPSOID = "IPSO17", IPSOName = "Surigao City" },
+        new IPSOModel() { IPSOID = "IPSO18", IPSOName = "Siargao City" },
+        new IPSOModel() { IPSOID = "IPSO19", IPSOName = "Lanao Del Norte" },
+        new IPSOModel() { IPSOID = "IPSO20", IPSOName = "Davao De oro" },
+        new IPSOModel() { IPSOID = "IPSO21", IPSOName = "Pagadian City" },
+    };
+}
+
+@code {
+    public class NPLOfficeModel
+    {
+        public string NPLOfficeID { get; set; }
+        public string NPLOfficeName { get; set; }
+    }
+    List<NPLOfficeModel> NPLOfficeList = new List<NPLOfficeModel> {
+        new NPLOfficeModel() { NPLOfficeID = "NPL1", NPLOfficeName = "Filipiniana" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL2", NPLOfficeName = "Reference" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL3", NPLOfficeName = "Public Libraries" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL4", NPLOfficeName = "Collection Development" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL5", NPLOfficeName = "Catalog" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL6", NPLOfficeName = "Bibliographic Services" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL7", NPLOfficeName = "Information Technology" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL8", NPLOfficeName = "Finance and Administrative" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL9", NPLOfficeName = "Research and Publications" },
+        new NPLOfficeModel() { NPLOfficeID = "NPL10", NPLOfficeName = "Office of the Director" },
+       
+    };
+}
