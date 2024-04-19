@@ -11,3 +11,11 @@
 .form-height {
     height: 50px; /* Adjust this value as per your requirement */
 }
+
+.e-plus-icon::before {
+    background-color: #f9f9f9;
+    color: #f9f9f9;
+}
+body{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}

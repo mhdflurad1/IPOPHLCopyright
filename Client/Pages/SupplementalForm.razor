@@ -3,152 +3,133 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using Syncfusion.Blazor.Data;
 @using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons
 @using Blazored.Toast.Services
 @using System.ComponentModel.DataAnnotations;
 @using System.Collections.Generic;
 @using System.Threading.Tasks;
 
 <PageTitle>IPOPHL | BCRRR Supplemental Form</PageTitle>
-<div class="text-center text-uppercase title-text fw-bold">Transaction Form - Supplemental Sheet</div>
+<div class="text-center text-uppercase title-text fw-bold">Transaction Form</div>
+<div class="text-center fw-normal fst-italic mb-1">Supplemental Sheet</div>
 
 <EditForm Model="@newcopyrightmodel" OnInvalidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
-    
-    <div class="container-fluid">
-        <div class="row p-2">
+
+    <div class="container-fluid mt-1">
+        <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-header header-text">
                         CO-AUTHOR / CREATOR INFORMATION
                     </div>
                     <div class="card-body">
-                        <div class="container-fluid sub-text">
+                        <div class="container-fluid">
                             <div class="row mb-2">
-                                <div class="row mb-2">
-                                    <div class="col">
-                                        <div class="form-floating">
-                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorLName" placeholder="Last Name" class="form-control" id="applicantLName" required />
-                                            <label for="applicantFName">Surname</label>
-                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorLName)" />
-                                        </div>
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <InputText @bind-Value="@newcopyrightmodel.CoAuthorLName" placeholder="Last Name" class="form-control" id="applicantLName" required />
+                                        <label for="applicantFName">Surname</label>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorLName)" />
                                     </div>
-                                    <div class="col">
-                                        <div class="form-floating">
-                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorFName" placeholder="First Name" class="form-control" id="applicantFName" required />
-                                            <label for="applicantFName">First Name</label>
-                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorFName)" />
-                                        </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <InputText @bind-Value="@newcopyrightmodel.CoAuthorFName" placeholder="First Name" class="form-control" id="applicantFName" required />
+                                        <label for="applicantFName">First Name</label>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorFName)" />
                                     </div>
-                                    <div class="col">
-                                        <div class="form-floating mb-2">
-                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorMName" placeholder="Middle Name" class="form-control" id="applicantMName" required />
-                                            <label for="applicantMName">Middle Name</label>
-                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMName)" />
-                                        </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating mb-2">
+                                        <InputText @bind-Value="@newcopyrightmodel.CoAuthorMName" placeholder="Middle Name" class="form-control" id="applicantMName" required />
+                                        <label for="applicantMName">Middle Name</label>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMName)" />
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="row mt-2 mb-3">
+                                <div class="col-2 mt-2">
+                                    <SfDatePicker @bind-Value="@newcopyrightmodel.DateValue" style="height:57px" TValue="DateTime?" id="Date of Birth" Placeholder="Date of Birth"></SfDatePicker>
+                                </div>
+
+                                <div class="col-2 mt-2">
+                                    <SfDropDownList @bind-Value="@newcopyrightmodel.CoMartialStatus" style="height:57px" TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
+                                                    PopupWidth="auto" Placeholder="Martial Status" DataSource="@MaritalStatusList">
+                                        <DropDownListFieldSettings Value="MaritalStatusID" Text="MaritalStatusName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+
+                                <div class="col-2 mt-2">
+                                    <SfDropDownList @bind-Value="@newcopyrightmodel.CoGender" style="height:57px" TValue="string" TItem="GenderDataModel" PopupHeight="auto"
+                                                    PopupWidth="auto" Placeholder="Gender" DataSource="@GenderList">
+                                        <DropDownListFieldSettings Value="GenderID" Text="GenderName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+
+                                <div class="col-3 mt-2">
+                                    <SfDropDownList TValue="string" TItem="NationalityDataModel" style="height:57px" PopupHeight="auto"
+                                                    PopupWidth="auto" Placeholder="Nationality" DataSource="@NationalityListModel">
+                                        <DropDownListFieldSettings Value="NationalityId" Text="NationalityName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorNationality)" />
+                                </div>
+
+                                <div class="col-3 mt-2">
+                                    <SfDropDownList TValue="string" TItem="CountryDataModel" style="height:57px" PopupHeight="auto"
+                                                    PopupWidth="auto " Placeholder="Country of Residence" DataSource="@CountryListModel">
+                                        <DropDownListFieldSettings Value="CountryId" Text="CountryName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCountry)" />
+                                </div>
+                            </div>
                             <div class="row mb-2">
-                                <div class="row mb-1 mt-2">
-                                    <div class="col-2">
-                                        <label for="startDate">Date of Birth</label>
+                                <div class="col-6">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="applicantAddress" placeholder="Address">
+                                        <label for="applicantAddress">Address (Complete Street info, village, subdivision, barangay)</label>
                                     </div>
-                                    <div class="col-2">
-                                        <label>Civil status</label>
+                                </div>
+                                <div class="col-6">
+                                    <SfDropDownList TValue="string" TItem="CityDataModel" style="height:57px" PopupHeight="auto"
+                                                    PopupWidth="auto " Placeholder="Municipality / City" DataSource="@CityListModel">
+                                        <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCity)" />
+                                </div>
+                            </div>
+                            <div class="row mt-3 mb-3">
+                                <!--ilagay ito sa code -->
+                                <div class="col-4">
+                                    <SfDropDownList TValue="string" TItem="CityDataModel" PopupHeight="auto" style="height:56px"
+                                                    PopupWidth="auto " Placeholder="Province / State" DataSource="@CityListModel">
+                                        <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCity)" />
+                                </div>
+                                <div class="col-2">
+                                    <div class="form-floating">
+                                        <input type="text" class="form-control" id="applicantZipCode" placeholder="Zip Code">
+                                        <label for="applicantZipCode">Zip Code</label>
                                     </div>
-                                    <div class="col-2">
-                                        <label>Sex</label>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <InputText @bind-Value="@newcopyrightmodel.CoAuthorMobNum" placeholder="Mobile Number" class="form-control" id="applicantLName" required />
+                                        <label>Mobile Number</label>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMobNum)" />
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-floating">
+                                        <InputText @bind-Value="@newcopyrightmodel.CoAuthorEmailAdd" placeholder="Email Address" class="form-control" id="applicantFName" required />
+                                        <label>Email Address</label>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorEmailAdd)" />
                                     </div>
                                 </div>
 
-                                <div class="row mt-1">
-                                    <div class="col-2 mt-2">
-                                        <SfDatePicker @bind-Value="@newcopyrightmodel.DateValue" TValue="DateTime?"></SfDatePicker>
-                                    </div>
-                                    <div class="col-2 mt-2">
-                                        <SfDropDownList TValue="string" TItem="GenderDataModel" PopupHeight="auto"
-                                                        PopupWidth="auto" DataSource="@GenderList">
-                                            <DropDownListFieldSettings Value="GenderID" Text="GenderName"></DropDownListFieldSettings>
-                                        </SfDropDownList>
-                                    </div>
-                                    <div class="col-2 mt-2">
-                                        <SfDropDownList TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
-                                                        PopupWidth="auto" DataSource="@MaritalStatusList">
-                                            <DropDownListFieldSettings Value="MaritalStatusID" Text="MaritalStatusName"></DropDownListFieldSettings>
-                                        </SfDropDownList>
-                                    </div>
-                                    <div class="col-3">
-                                        <SfDropDownList TValue="string" TItem="NationalityDataModel" PopupHeight="auto"
-                                                        PopupWidth="auto " Placeholder="Nationality" DataSource="@NationalityListModel">
-                                            <DropDownListFieldSettings Value="NationalityId" Text="NationalityName"></DropDownListFieldSettings>
-                                        </SfDropDownList>
-                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorNationality)" />
-                                    </div>
-                                    <div class="col-3">
-                                        <SfDropDownList TValue="string" TItem="CountryDataModel" PopupHeight="auto"
-                                                        PopupWidth="auto " Placeholder="Country of Residence" DataSource="@CountryListModel">
-                                            <DropDownListFieldSettings Value="CountryId" Text="CountryName"></DropDownListFieldSettings>
-                                        </SfDropDownList>
-                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCountry)" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="authorAddress" placeholder="Address (Complete Street info, village, subdivision, barangay)">
-                                    <label for="authorAddress">Address (Complete Street info, village, subdivision, barangay)</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <SfDropDownList TValue="string" TItem="CityDataModel" PopupHeight="auto"
-                                                PopupWidth="auto " Placeholder="Municipality/City" DataSource="@CityListModel">
-                                    <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
-                                </SfDropDownList>
-                                <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCity)" />
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <div class="col-4">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="coauthorAddress" placeholder="Province/State">
-                                    <label for="coauthorProvState">Province/State</label>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="authorZipCode" placeholder="Zip Code">
-                                    <label for="coauthorZipCode">Zip Code</label>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group mt-2 mb-3">
-                                    <span class="input-group-text" id="phone-icon">
-                                        <i class="bi bi-telephone-fill"></i>
-                                    </span>
-                                    <InputText @bind-Value="@newcopyrightmodel.CoAuthorMobNum" placeholder="Mobile Number" class="form-control" id="raMobNum" required />
-                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMobNum)" />
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="input-group mt-2 mb-3">
-                                    <span class="input-group-text" id="email-icon">
-                                        <i class="bi bi-envelope-fill"></i>
-                                    </span>
-                                    <InputText @bind-Value="@newcopyrightmodel.CoAuthorEmailAdd" placeholder="Email Address" class="form-control" id="raEmailAdd" required />
-                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorEmailAdd)" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-5">
-                                <div class="fw-normal fst-italic">
-                                    Is the Author/creator/performer claiming copyright/related right for the entire work?
-                                </div>
-                            </div>
-                            <div class="col">
+
                             </div>
                         </div>
                     </div>
@@ -156,189 +137,201 @@
             </div>
         </div>
     </div>
-    
-    <div class="container-fluid">
-        <div class="row p-2">
-            @foreach (var model in newcopyrightmodels)
-            {
-                <div class="row">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-header header-text">
-                                CO-AUTHOR / CREATOR INFORMATION
-                            </div>
-                            <div class="card-body">
-                                <div class="container-fluid sub-text">
-                                    <div class="row mb-2">
-                                        <div class="row mb-2">
-                                            <div class="col">
-                                                <div class="form-floating">
-                                                    <InputText @bind-Value="@newcopyrightmodel.CoAuthorLName" placeholder="Last Name" class="form-control" id="applicantLName" required />
-                                                    <label for="applicantFName">Surname</label>
-                                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorLName)" />
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-floating">
-                                                    <InputText @bind-Value="@newcopyrightmodel.CoAuthorFName" placeholder="First Name" class="form-control" id="applicantFName" required />
-                                                    <label for="applicantFName">First Name</label>
-                                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorFName)" />
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-floating mb-2">
-                                                    <InputText @bind-Value="@newcopyrightmodel.CoAuthorMName" placeholder="Middle Name" class="form-control" id="applicantMName" required />
-                                                    <label for="applicantMName">Middle Name</label>
-                                                    <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMName)" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="row mb-2">
-                                        <div class="row mb-1 mt-2">
-                                            <div class="col-2">
-                                                <label for="startDate">Date of Birth</label>
-                                            </div>
-                                            <div class="col-2">
-                                                <label>Civil status</label>
-                                            </div>
-                                            <div class="col-2">
-                                                <label>Sex</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mt-1">
-                                            <div class="col-2 mt-2">
-                                                <SfDatePicker @bind-Value="@newcopyrightmodel.DateValue" TValue="DateTime?"></SfDatePicker>
-                                            </div>
-                                            <div class="col-2 mt-2">
-                                                <SfDropDownList TValue="string" TItem="GenderDataModel" PopupHeight="auto"
-                                                                PopupWidth="auto" DataSource="@GenderList">
-                                                    <DropDownListFieldSettings Value="GenderID" Text="GenderName"></DropDownListFieldSettings>
-                                                </SfDropDownList>
-                                            </div>
-                                            <div class="col-2 mt-2">
-                                                <SfDropDownList TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
-                                                                PopupWidth="auto" DataSource="@MaritalStatusList">
-                                                    <DropDownListFieldSettings Value="MaritalStatusID" Text="MaritalStatusName"></DropDownListFieldSettings>
-                                                </SfDropDownList>
-                                            </div>
-                                            <div class="col-3">
-                                                <SfDropDownList TValue="string" TItem="NationalityDataModel" PopupHeight="auto"
-                                                                PopupWidth="auto " Placeholder="Nationality" DataSource="@NationalityListModel">
-                                                    <DropDownListFieldSettings Value="NationalityId" Text="NationalityName"></DropDownListFieldSettings>
-                                                </SfDropDownList>
-                                                <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorNationality)" />
-                                            </div>
-                                            <div class="col-3">
-                                                <SfDropDownList TValue="string" TItem="CountryDataModel" PopupHeight="auto"
-                                                                PopupWidth="auto " Placeholder="Country of Residence" DataSource="@CountryListModel">
-                                                    <DropDownListFieldSettings Value="CountryId" Text="CountryName"></DropDownListFieldSettings>
-                                                </SfDropDownList>
-                                                <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCountry)" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+    @foreach (var model in newcopyrightmodels)
+    {
+        <div class="container-fluid mb-3 mt-3">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header header-text">
+                            CO-AUTHOR / CREATOR INFORMATION
+                        </div>
+                        <div class="card-body">
+                            <div class="container-fluid">
                                 <div class="row mb-2">
                                     <div class="col">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="authorAddress" placeholder="Address (Complete Street info, village, subdivision, barangay)">
-                                            <label for="authorAddress">Address (Complete Street info, village, subdivision, barangay)</label>
+                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorLNamee" placeholder="Last Name" class="form-control" id="applicantLName" required />
+                                            <label for="applicantFName">Surname</label>
+                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorLName)" />
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <SfDropDownList TValue="string" TItem="CityDataModel" PopupHeight="auto"
-                                                        PopupWidth="auto " Placeholder="Municipality/City" DataSource="@CityListModel">
+                                        <div class="form-floating">
+                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorFNamee" placeholder="First Name" class="form-control" id="applicantFName" required />
+                                            <label for="applicantFName">First Name</label>
+                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorFName)" />
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-floating mb-2">
+                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorMNamee" placeholder="Middle Name" class="form-control" id="applicantMName" required />
+                                            <label for="applicantMName">Middle Name</label>
+                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMName)" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row mt-2 mb-3">
+                                    <div class="col-2 mt-2">
+                                        <SfDatePicker @bind-Value="@newcopyrightmodel.DateValuee" style="height:57px" TValue="DateTime?" id="Date of Birth" Placeholder="Date of Birth"></SfDatePicker>
+                                    </div>
+
+                                    <div class="col-2 mt-2">
+                                        <SfDropDownList @bind-Value="@newcopyrightmodel.CoMartialStatuss" style="height:57px" TValue="string" TItem="MaritalStatusDataModel" PopupHeight="auto"
+                                                        PopupWidth="auto" Placeholder="Martial Status" DataSource="@MaritalStatusList">
+                                            <DropDownListFieldSettings Value="MaritalStatusID" Text="MaritalStatusName"></DropDownListFieldSettings>
+                                        </SfDropDownList>
+                                    </div>
+
+                                    <div class="col-2 mt-2">
+                                        <SfDropDownList @bind-Value="@newcopyrightmodel.CoGenderr" style="height:57px" TValue="string" TItem="GenderDataModel" PopupHeight="auto"
+                                                        PopupWidth="auto" Placeholder="Gender" DataSource="@GenderList">
+                                            <DropDownListFieldSettings Value="GenderID" Text="GenderName"></DropDownListFieldSettings>
+                                        </SfDropDownList>
+                                    </div>
+
+                                    <div class="col-3 mt-2">
+                                        <SfDropDownList @bind-Value="@newcopyrightmodel.CoAuthorNationalityy" TValue="string" TItem="NationalityDataModel" style="height:57px" PopupHeight="auto"
+                                                        PopupWidth="auto" Placeholder="Nationality" DataSource="@NationalityListModel">
+                                            <DropDownListFieldSettings Value="NationalityId" Text="NationalityName"></DropDownListFieldSettings>
+                                        </SfDropDownList>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorNationality)" />
+                                    </div>
+
+                                    <div class="col-3 mt-2">
+                                        <SfDropDownList TValue="string" TItem="CountryDataModel" style="height:57px" PopupHeight="auto"
+                                                        PopupWidth="auto " Placeholder="Country of Residence" DataSource="@CountryListModel">
+                                            <DropDownListFieldSettings Value="CountryId" Text="CountryName"></DropDownListFieldSettings>
+                                        </SfDropDownList>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCountryy)" />
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="applicantAddress" placeholder="Address">
+                                            <label for="applicantAddress">Address (Complete Street info, village, subdivision, barangay)</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <SfDropDownList TValue="string" TItem="CityDataModel" style="height:57px" PopupHeight="auto"
+                                                        PopupWidth="auto " Placeholder="Municipality / City" DataSource="@CityListModel">
                                             <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
                                         </SfDropDownList>
-                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCity)" />
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCityy)" />
                                     </div>
                                 </div>
-                                <div class="row mb-2">
+                                <div class="row mt-3 mb-3">
                                     <div class="col-4">
-                                        <div class="form-floating">
-                                            <input type="text" class="form-control" id="coauthorAddress" placeholder="Province/State">
-                                            <label for="coauthorProvState">Province/State</label>
-                                        </div>
+                                        <SfDropDownList TValue="string" TItem="CityDataModel" PopupHeight="auto" style="height:56px"
+                                                        PopupWidth="auto " Placeholder="Province / State" DataSource="@CityListModel">
+                                            <DropDownListFieldSettings Value="CityId" Text="CityName"></DropDownListFieldSettings>
+                                        </SfDropDownList>
+                                        <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorCityy)" />
                                     </div>
                                     <div class="col-2">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="authorZipCode" placeholder="Zip Code">
-                                            <label for="coauthorZipCode">Zip Code</label>
+                                            <input type="text" class="form-control" id="applicantZipCode" placeholder="Zip Code">
+                                            <label for="applicantZipCode">Zip Code</label>
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="input-group mt-2 mb-3">
-                                            <span class="input-group-text" id="phone-icon">
-                                                <i class="bi bi-telephone-fill"></i>
-                                            </span>
-                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorMobNum" placeholder="Mobile Number" class="form-control" id="raMobNum" required />
-                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMobNum)" />
+                                        <div class="form-floating">
+                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorMobNum" placeholder="Mobile Number" class="form-control" id="applicantLName" required />
+                                            <label>Mobile Number</label>
+                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorMobNumm)" />
                                         </div>
                                     </div>
                                     <div class="col">
-                                        <div class="input-group mt-2 mb-3">
-                                            <span class="input-group-text" id="email-icon">
-                                                <i class="bi bi-envelope-fill"></i>
-                                            </span>
-                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorEmailAdd" placeholder="Email Address" class="form-control" id="raEmailAdd" required />
-                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorEmailAdd)" />
+                                        <div class="form-floating">
+                                            <InputText @bind-Value="@newcopyrightmodel.CoAuthorEmailAdd" placeholder="Email Address" class="form-control" id="applicantFName" required />
+                                            <label>Email Address</label>
+                                            <ValidationMessage For="@(() => newcopyrightmodel.CoAuthorEmailAddd)" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-5">
-                                        <div class="fw-normal fst-italic">
-                                            Is the Author/creator/performer claiming copyright/related right for the entire work?
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                    </div>
+
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
+            </div>
         </div>
-    </div>
-    
-    <div class="row p-2 ms-2">
-        <SfButton CssClass="e-round" IconCss="e-icons e-plus-icon" IsPrimary="true" OnClick="AddNewGroup"></SfButton>
-    </div>
+    }
+
+        <div class="row container-fluid mt-3 mb-2">
+            <div class="col">
+              <SfButton IconCss="e-icons e-chevron-down icon-color" style="background-color: black" OnClick="AddNewGroup"><span class="button-text-color">Add New Co-Author</span></SfButton>
+              <SfButton IconCss="e-icons e-chevron-up icon-color" style="background-color: black" OnClick="RemoveLastGroup"><span class="button-text-color">Remove New Co-Author</span></SfButton>
+              <SfButton style="background-color: black; width: 150px" OnClick="RemoveLastGroup"><span class="button-text-color">Sumbit</span></SfButton>
+            </div>
+        </div>
+
 </EditForm>
 
-@code{
+@code {
     class CopyrightModel
     {
         ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorLName { get; set; }
         ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorLNamee { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorFName { get; set; }
         ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorFNamee { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorMName { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorMNamee { get; set; }
         ////[Required]
-        //public GenderSelect? RAGender { get; set; } = null;
+        public string CoGender { get; set; } = null;
+        ////[Required]
+        public string CoGenderr { get; set; } = null;
+        ////[Required]
+        public string CoMartialStatus { get; set; } = null;
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string CoMartialStatuss { get; set; } = null;
         ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorPosition { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorPositionn { get; set; }
         ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorAddress { get; set; }
         public string CoAuthorCountry { get; set; }
         public string CoAuthorState { get; set; }
         public string CoAuthorCity { get; set; }
         ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorAddresss { get; set; }
+        public string CoAuthorCountryy { get; set; }
+        public string CoAuthorStatee { get; set; }
+        public string CoAuthorCityy { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorZipCode { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorZipCodee { get; set; }
         ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorMobNum { get; set; }
         ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorMobNumm { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorEmailAdd { get; set; }
-        ////[Required]
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorEmailAddd { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
         public string CoAuthorNationality { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string CoAuthorNationalityy { get; set; }
 
-        //[Required]
-        public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
+        ////[Required(ErrorMessage = "This field is required.")]
+        public DateTime? DateValue { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public DateTime? DateValuee { get; set; }
+
+
 
     }
     CopyrightModel newcopyrightmodel = new CopyrightModel();
@@ -347,6 +340,15 @@
     private void AddNewGroup()
     {
         newcopyrightmodels.Add(new CopyrightModel());
+    }
+
+    private List<CopyrightModel> Newcopyrightmodels = new List<CopyrightModel>();
+    private void RemoveLastGroup()
+    {
+        if (newcopyrightmodels.Count > 0)
+        {
+            newcopyrightmodels.RemoveAt(newcopyrightmodels.Count - 1);
+        }
     }
 
     void HandleValidSubmit()
@@ -372,6 +374,7 @@
     {
         public string MaritalStatusID { get; set; }
         public string MaritalStatusName { get; set; }
+
     }
     List<MaritalStatusDataModel> MaritalStatusList = new List<MaritalStatusDataModel> {
         new MaritalStatusDataModel() { MaritalStatusID = "MS1", MaritalStatusName = "Single" },
@@ -418,3 +421,14 @@
     };
 }
 
+
+    <!--private async Task RedirectToExternalUrl(string url)
+    {
+        //await JSRuntime.InvokeVoidAsync("window.open", url, "_blank");
+    }
+   // private async Task toIndex()
+    {
+        //string externalUrl = "/";
+        //await RedirectToExternalUrl(externalUrl);
+    }
+}

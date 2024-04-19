@@ -8,3 +8,21 @@
 .header-text{
     color: #f9f9f9;
 }
+
+.icon-color{
+    background-color: #f9f9f9;
+    color: #f9f9f9;
+}
+
+.button-text-color{
+    color: #f9f9f9;
+}
+
+.button-body {
+    background-color: black;
+    width: 150px
+}
+
+.button-background {
+    background-color: black;
+}

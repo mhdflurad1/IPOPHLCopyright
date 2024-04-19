@@ -8,13 +8,15 @@
 @using System.Collections.Generic;
 @using System.Threading.Tasks;
 @inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JSRuntime;
+
+
 
 <PageTitle>IPOPHL | BCRRR Registration Form</PageTitle>
 
 <!--Transaction Form Title-->
 <div class="text-center text-uppercase title-text fw-bold">Transaction Form</div>
-<div class="text-center fw-normal fst-italic sub-text">
+<div class="text-center fw-normal fst-italic sub-text mb-1">
     NOTE: Use “N/A” for fields that are not applicable.
     Recordation of copyright transfer/assignment, mortgage, etc. requires initial recognition, if applicable.
 </div>
@@ -524,9 +526,12 @@
                         </div>
                     </div>
                         <!--add another co-author next page (supplemental form) add c# and js codings-->
+
                         <div class="row mb-1 mt-3">
-                            <div class="col-3" @onclick="toSupplementalForm">
-                                <button class="button-addCoAuthor btn btn-orange"> + Add Co-Author/Creator/Performer</button>
+                            <div class="col-3 ">
+                                <SfButton CssClass="e-danger shadow" IconCss="e-icons e-plus icon-color"
+                                          style="background-color:#ef6a31;" OnClick="toSupplementalForm">
+                                <span class="button-text-color">Add New Co-Author</span></SfButton>
                             </div>
                         </div>
                     </div>
@@ -844,21 +849,17 @@
             </div>
         </div>
         <!--End of the Accordion-->
-        <div class="row">
-            <div class="col-1 m-5">
-                <button type="button"
-                        class="button-submit btn btn-orange"
-                        id="FinalSubmit">
-                    Clear all
-                </button>
-            </div>
-
-            <div class="col-1 m-5">
-                <button type="button"
-                        class="button-submit btn btn-orange"
-                        id="FinalSubmit">
-                    Submit
-                </button>
+        <div class="row mb-1 mt-3 mb-2">
+            <div class="col-3">
+                <SfButton CssClass="e-danger"
+                          style="background-color: #ef6a31" OnClick="toSupplementalForm">
+                    <span class="button-text-color">Clear All</span>
+                </SfButton>
+                <SfButton CssClass="e-danger"
+                          style="background-color: #ef6a31" OnClick="toSupplementalForm">
+                    <span class="button-text-color">Submit</span>
+                </SfButton>
+ 
             </div>
         </div>
 
@@ -948,6 +949,8 @@
 
         //[Required] Copy of Author/Creator/Performer Information
         public string ACPMaritalStatus { get; set; } = null;
+
+
         
         //[Required] Copy of Author/Creator/Performer Information
         public string ACPGender { get; set; } = null;
@@ -1171,3 +1174,7 @@
         await RedirectToExternalUrl(externalUrl);
     }
 }
+
+
+
+
