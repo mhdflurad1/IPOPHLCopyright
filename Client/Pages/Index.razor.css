@@ -11,3 +11,31 @@
 .form-height {
     height: 50px; /* Adjust this value as per your requirement */
 }
+
+.e-plus-icon::before {
+    background-color: #f9f9f9;
+    color: #f9f9f9;
+}
+body{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.popupstyle {
+background-color: #ef6a31;
+}
+
+.dialog-header  {
+    word-wrap: break-word;
+    text-align: center;
+    
+}
+
+.dialog-content {
+    text-align: justify; /* Justifies the text */
+    text-justify: inter-word; /* Improves spacing between words */
+}
+
+.dialog-contentmodal {
+    text-align: center; /* Justifies the text */
+    text-justify: inter-word; /* Improves spacing between words */
+}

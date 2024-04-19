@@ -1,5 +1,4 @@
 ﻿@page "/"
-@inject HttpClient Http
 @using Microsoft.AspNetCore.Components.Forms
 @using Syncfusion.Blazor.Data;
 @using Syncfusion.Blazor.Inputs;
@@ -7,14 +6,74 @@
 @using System.ComponentModel.DataAnnotations;
 @using System.Collections.Generic;
 @using System.Threading.Tasks;
+@using CopyrightIndex.Models
+@using Syncfusion.Blazor.Popups
+@using Microsoft.EntityFrameworkCore;
+
+
+@inject HttpClient Http
 @inject NavigationManager NavigationManager
-@inject IJSRuntime JSRuntime
+@inject IJSRuntime JSRuntime;
+
+
+<SfDialog Width="500px" ShowCloseIcon="false" IsModal="true" @bind-Visible="@IsOuterDialogVisible">
+	<DialogTemplates>
+
+        <Header><div class="dialog-header">IPOPHL PRIVACY STATEMENT AS PER RA 10173 ALSO KNOWN AS "DATA PRIVACY ACT OF 2012</div></Header>
+		<Content>
+            <div class="dialog-content m-2">
+			By clicking the "I Agree" button", I
+			understand that I am giving consent to the collection, storage,
+			sharing and other necessary processing of the personal
+			information contained in this application, freely and voluntarily,
+			to the Intellectual Property Office of the Philippines (IPOPHL) and
+			its partners, in the exercise of its mandate as the lead
+			government agency for the protection of IP rights and in
+			compliance with the provisions of RA 10173, also known as, the
+			Data Privacy Act of 2012.
+            </div>
+          <DialogFooter>
+             <div class="row m-4">
+              <div class="col-auto me-auto">
+                        <SfButton CssClass="e-success" style="background-color: #3ab64b" @onclick="@CloseInnerDialog"><span class="align-content-end; m-4">Agree</span></SfButton>       <!--@OpenInnerDialog use this if you need to open the tabe-->
+              </div>
+              <div class="col-auto">
+                        <SfButton CssClass="e-danger" style="background-color: #ef2a2f" @onclick="@OpenInnerDialog"><span class="align-content-end; m-4">Disagree</span></SfButton>   <!--@CloseInnerDialog use this if you need to close the tabe-->
+              </div>
+            </div>
+          </DialogFooter>
+			@if (IsInnerDialogVisible)
+			{
+			<SfDialog Width="500px" ShowCloseIcon="false" IsModal="true" @bind-Visible="@IsInnerDialogVisible">
+				<DialogTemplates>
+                        <Header><div class="dialog-header">Important Notice: Terms and Conditions</div></Header>
+					<Content>
+                         <div class="dialog-content m-2">
+                                By continuing to use this service or platform, you agree to adhere to the terms and conditions set forth. Failure to comply with these terms may result in violations of Philippine law and copyright infringement, particularly if content is not registered.
+                                It's important to carefully review and understand the terms and conditions to ensure compliance and avoid any legal implications.<br/>
+                                <br/>Thank you for your understanding.
+						</div>
+						<DialogFooter>
+                           <div class="row m-4 col align-self-center">
+                                <SfButton @onclick="() => { IsInnerDialogVisible = false; IsOuterDialogVisible = true; }"><span class="align-content-end">I understand</span></SfButton>       <!--@OpenInnerDialog use this if you need to open the tabe-->
+                           </div>
+						</DialogFooter>
+
+                            
+					</Content>
+				</DialogTemplates>
+			</SfDialog>
+			}
+		</Content>
+	</DialogTemplates>
+</SfDialog>
 
 <PageTitle>IPOPHL | BCRRR Registration Form</PageTitle>
 
+
 <!--Transaction Form Title-->
 <div class="text-center text-uppercase title-text fw-bold">Transaction Form</div>
-<div class="text-center fw-normal fst-italic sub-text">
+<div class="text-center fw-normal fst-italic sub-text mb-1">
     NOTE: Use “N/A” for fields that are not applicable.
     Recordation of copyright transfer/assignment, mortgage, etc. requires initial recognition, if applicable.
 </div>
@@ -524,9 +583,12 @@
                         </div>
                     </div>
                         <!--add another co-author next page (supplemental form) add c# and js codings-->
+
                         <div class="row mb-1 mt-3">
-                            <div class="col-3" @onclick="toSupplementalForm">
-                                <button class="button-addCoAuthor btn btn-orange"> + Add Co-Author/Creator/Performer</button>
+                            <div class="col-3 ">
+                                <SfButton CssClass="e-danger shadow" IconCss="e-icons e-plus icon-color"
+                                          style="background-color:#ef6a31;" OnClick="toSupplementalForm">
+                                <span class="button-text-color">Add New Co-Author</span></SfButton>
                             </div>
                         </div>
                     </div>
@@ -825,7 +887,6 @@
             </h2>
             <div id="panelsStayOpen-collapseSeven" class="accordion-collapse collapse">
                 <div class="accordion-body">
-                    <div class="container">
                         <div class="row container-fluid">
                             @foreach (var document in SubmitDocumentTypeList)
                             {
@@ -839,26 +900,20 @@
                                 </div>
                             }
                         </div>
-                    </div>
+         
                 </div>
             </div>
         </div>
         <!--End of the Accordion-->
-        <div class="row">
-            <div class="col-1 m-5">
-                <button type="button"
-                        class="button-submit btn btn-orange"
-                        id="FinalSubmit">
-                    Clear all
-                </button>
-            </div>
+        <div class="row mb-1 mt-3 mb-2">
+            
+            <div class="col-auto">
 
-            <div class="col-1 m-5">
-                <button type="button"
-                        class="button-submit btn btn-orange"
-                        id="FinalSubmit">
-                    Submit
-                </button>
+                <SfButton CssClass="e-danger"
+                          style="background-color: #ef6a31" OnClick="toSchedulefee">
+                    <span class="button-text-color; align-content-end; m-4">Save and Continue</span>
+                </SfButton>
+ 
             </div>
         </div>
 
@@ -866,93 +921,6 @@
 </EditForm>
 
 @code {
-    class CopyrightModel
-    {
-        //[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantLName { get; set; }
-        //[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantFName { get; set; }
-        //[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantMName { get; set; }
-        //[Required]
-        public string ApplicantGender { get; set; } = null;
-        public string ApplicantMaritalStatus { get; set; } = null;
-        //[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantPosition { get; set; }
-        //[Required(ErrorMessage = "This field is required.")]
-        public string NameCompanyCorpGovASch { get; set; }
-        public bool IsSmallType { get; set; }
-        public bool IsBigType { get; set; }
-        //[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantAddress { get; set; }
-        public string ApplicantCountry { get; set; }
-        //public string ApplicantState { get; set; }
-        public string ApplicantCity { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantZipCode { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantMobNum { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string ApplicantEmailAdd { get; set; }
-        ////[Required]
-        public string ApplicantNationality { get; set; }
-
-
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RALName { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RAFName { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RAMName { get; set; }
-        ////[Required]
-        //public GenderSelect? RAGender { get; set; } = null;
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RAPosition { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RAAddress { get; set; }
-        //public string RACountry { get; set; }
-        //public string RAState { get; set; }
-        //public string RACity { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RAZipCode { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RAMobNum { get; set; }
-        ////[Required(ErrorMessage = "This field is required.")]
-        public string RAEmailAdd { get; set; }
-        ////[Required]
-        public string RANationality { get; set; }
-
-        ////[Required]
-        public string NClass { get; set; }
-        //[Required(ErrorMessage = "This field is required.")]
-        public string GSComments { get; set; }
-
-        ////[Required]
-        public string ApplicantType { get; set; }
-        public bool IsIndividual { get; set; }
-
-        //[Required]
-        public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
-
-        //[Required]
-        public string PlaceCreation { get; set; }
-
-        //[Required]
-        public string ClassificationWork { get; set; }
-
-        //[Required]
-        public string IPSO { get; set; }
-
-        //[Required]
-        public string NPL0ffice { get; set; }
-
-        //[Required] Copy of Author/Creator/Performer Information
-        public string ACPMaritalStatus { get; set; } = null;
-        
-        //[Required] Copy of Author/Creator/Performer Information
-        public string ACPGender { get; set; } = null;
-
-    }
     CopyrightModel copyrightmodel = new CopyrightModel();
 
     bool isIndividualSelected = false;
@@ -968,13 +936,8 @@
 
 }
 
+
 @code {
-    public class SubmitDocumentTypeModel
-    {
-        public string DocumentTypeID { get; set; }
-        public string DocumentType { get; set; }
-        public string Description { get; set; }
-    }
 
     public List<SubmitDocumentTypeModel> SubmitDocumentTypeList { get; set; } = new List<SubmitDocumentTypeModel>
     {
@@ -991,11 +954,7 @@
 }
 
 @code {
-    public class GenderDataModel
-    {
-        public string GenderID { get; set; }
-        public string GenderName { get; set; }
-    }
+    
     List<GenderDataModel> GenderList = new List<GenderDataModel> {
         new GenderDataModel() { GenderID = "Gender1", GenderName = "Male" },
         new GenderDataModel() { GenderID = "Gender2", GenderName = "Female" },
@@ -1003,13 +962,7 @@
 }
 
 @code {
-    public class MaritalStatusDataModel
-    {
-        public string MaritalStatusID { get; set; }
-        public string MaritalStatusName { get; set; }
-        
-
-    }
+    
     List<MaritalStatusDataModel> MaritalStatusList = new List<MaritalStatusDataModel> {
         new MaritalStatusDataModel() { MaritalStatusID = "MS1", MaritalStatusName = "Single" },
         new MaritalStatusDataModel() { MaritalStatusID = "MS2", MaritalStatusName = "Married" },
@@ -1020,11 +973,6 @@
 }
 
 @code{
-    public class NationalityDataModel
-    {
-        public int NationalityID { get; set; }
-        public string NationalityName { get; set; }
-    }
     List<NationalityDataModel> NationalityListModel = new List<NationalityDataModel>()
     {
       
@@ -1032,11 +980,7 @@
 }
 
 @code {
-    public class PlaceCreationModel
-    {
-        public string PlaceCreationID { get; set; }
-        public string PlaceCreationName { get; set; }
-    }
+    
     List<PlaceCreationModel> PlaceCreationList = new List<PlaceCreationModel> {
         new PlaceCreationModel() { PlaceCreationID = "PC1", PlaceCreationName = "City of Manila" },
         new PlaceCreationModel() { PlaceCreationID = "PC2", PlaceCreationName = "Quezon City" },
@@ -1059,22 +1003,14 @@
 }
 
 @code{
-    public class CountryDataModel
-    {
-        public int CountryID { get; set; }
-        public string CountryName { get; set; }
-    }
+   
     List<CountryDataModel> CountryListModel = new List<CountryDataModel>()
     {
 
     };
 }
 @code {
-    public class CityDataModel
-    {
-        public int CityID { get; set; }
-        public string CityyName { get; set; }
-    }
+    
     List<CityDataModel> CityListModel = new List<CityDataModel>()
     {
 
@@ -1082,11 +1018,7 @@
 }
 
 @code {
-    public class ClassificationWorkModel
-    {
-        public string ClassificationWorkID { get; set; }
-        public string ClassificationWorkName { get; set; }
-    }
+   
     List<ClassificationWorkModel> ClassificationWorkList = new List<ClassificationWorkModel> {
         new ClassificationWorkModel() { ClassificationWorkID = "CW1", ClassificationWorkName = "A - Books, E-Books, Audio books, pamphlets,comics, novels, articles" },
         new ClassificationWorkModel() { ClassificationWorkID = "CW2", ClassificationWorkName = "B - Periodicals, journals, diaries, newspaper,magazine, e-magazines" },
@@ -1109,11 +1041,7 @@
 }
 
 @code {
-    public class IPSOModel
-    {
-        public string IPSOID { get; set; }
-        public string IPSOName { get; set; }
-    }
+    
     List<IPSOModel> IPSOList = new List<IPSOModel> {
         new IPSOModel() { IPSOID = "IPSO1", IPSOName = "DTI La Union, DOST La Union" },
         new IPSOModel() { IPSOID = "IPSO2", IPSOName = "Bulacan" },
@@ -1140,11 +1068,7 @@
 }
 
 @code {
-    public class NPLOfficeModel
-    {
-        public string NPLOfficeID { get; set; }
-        public string NPLOfficeName { get; set; }
-    }
+    
     List<NPLOfficeModel> NPLOfficeList = new List<NPLOfficeModel> {
         new NPLOfficeModel() { NPLOfficeID = "NPL1", NPLOfficeName = "Filipiniana" },
         new NPLOfficeModel() { NPLOfficeID = "NPL2", NPLOfficeName = "Reference" },
@@ -1171,3 +1095,54 @@
         await RedirectToExternalUrl(externalUrl);
     }
 }
+
+@code {
+    private async Task RedirectToAnotherUrl(string url)
+    {
+        await JSRuntime.InvokeVoidAsync("window.open", url, "_blank");
+    }
+    private async Task toSchedulefee()
+    {
+        string externalUrl = "/copyright-schedulefee-form";
+        await RedirectToAnotherUrl(externalUrl);
+    }
+}
+
+ @code {
+    private bool IsOuterDialogVisible { get; set; } = true;
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+    private bool IsInnerDialogVisible { get; set; } = false;
+
+    private void OpenOuterDialog()
+    {
+        IsOuterDialogVisible = true;
+    }
+
+    private void OpenInnerDialog()
+    {
+        IsInnerDialogVisible = true;
+    }
+
+    private void CloseInnerDialog()
+    {
+        IsOuterDialogVisible = false;
+        IsInnerDialogVisible = false;
+    }
+}
+
+@code{
+
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+
+        public DbSet<CopyrightModel> Copyrights { get; set; }
+        // Add other DbSets for other models
+    }
+}
+
