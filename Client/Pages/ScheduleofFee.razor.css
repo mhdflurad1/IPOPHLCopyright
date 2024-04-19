@@ -1,32 +1,3 @@
-﻿.card{
-    align-content: center;
-}
-.card-header{
-    height: 40px;
-    background-color: #070707;
-}
-.header-text{
-    color: #f9f9f9;
-}
-
-.icon-color{
-    background-color: #f9f9f9;
-    color: #f9f9f9;
-}
-
-.button-text-color{
-    color: #f9f9f9;
-}
-
-.button-body {
-    background-color: black;
-    width: 150px
-}
-
-.button-background {
-    background-color: black;
-}
-
 .accordion-button:not(.collapsed) {
     background-color: #ef6a31;
     color: white;

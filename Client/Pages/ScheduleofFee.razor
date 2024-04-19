@@ -1,0 +1,352 @@
+@page "/copyright-schedulefee-form"
+@using CopyrightSchedPage.Client.Models
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Data;
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Maui.Core.Hosting 
+@using Blazored.Toast.Services
+@using System.ComponentModel.DataAnnotations;
+@using System.Collections.Generic;
+@using System.Threading.Tasks
+@using CopyrightSchedPage
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.SplitButtons
+
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime;
+@inject HttpClient Http
+
+<PageTitle>IPOPHL | BCRRR Supplemental Form</PageTitle>
+<div class="text-center text-uppercase title-text fw-bold">Transaction Form</div>
+<div class="text-center fw-normal fst-italic mb-1 sub-text">
+    NOTE: Use “N/A” for fields that are not applicable.
+    Recordation of copyright transfer/assignment, mortgage, etc. requires initial recognition, if applicable.
+</div>
+
+<EditForm Model="@lastcopyrightmodel" OnInvalidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="accordion application-form" id="schedulefee">
+        <!--Type of Application-->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseOne"
+                        aria-expanded="true"
+                        aria-controls="panelsStayOpen-collapseOne">
+                    Schedule of Fee
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseOne"
+                 class=accordion-collapse collapse show>
+                <div class="accordion-body">
+                    <div class="container-fluid row d-flex">
+
+                        <div class="row">
+                            <div class="col-5">
+                                <label>Copyright Deposit/Recordation</label>
+                            </div>
+                            <div class="col-7">
+                                <label>Amendment/Correction</label>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-1 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.CoNCR" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        NCR
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-1 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.CoRegion" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Region
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-3 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.CoBulkNLP" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Bulk, per certificate + NLP Trust-in-Fund
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-1 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.AmNCR" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        NCR
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-1 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.AmRegion" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Region
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-4 mt-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.AmBulkNLP" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Bulk, per certificate + NLP Trust-in-Fund
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 mt-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.CoCertRequest" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Other Certification Requests (under IPOPHL general fees)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-3 mt-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.AmDisReso" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Dispute Resolution (Author’s Rights)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 mt-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.CoCertTrue" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Certified True Copy of Certificate
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-7 mt-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.AmAdditio" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Additional Copies of Original Certificate of Copyright Registration
+                                        (under IPOPHL general fees-Certification)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <div class="col-5 mt-1">
+                                <div class="form-check subtext">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.CoCertPrint" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Computer Printout, per printed sheet (under IPOPHL general fees)
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-7 mt-1">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.AmRecons" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                    <label class="form-check-label" for="flexCheckSmallEnt">
+                                        Reconstitution of Records- for lost/missing certificate of copyright
+                                        registration (under IPOPHL general fees)
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseTwo"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseTwo">
+                    Signature and Declaration
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container-fluid row d-flex">
+
+                        <div class="row">
+                            <div class="col-5">
+                                <label>
+                                    I declare that all the information provided above is true and correct to the best
+                                    of my knowledge.
+                                </label>
+                            </div>
+                            <div class="col-7">
+                                <label>Amendment/Correction</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4 mt-3">
+                                <SfUploader AutoUpload="true">
+                                    <UploaderEvents ValueChange="@OnChange"></UploaderEvents>
+                                </SfUploader>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--<div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#panelsStayOpen-collapseThree"
+                        aria-expanded="false"
+                        aria-controls="panelsStayOpen-collapseThree">
+                    Amount and Fees
+                </button>
+            </h2>
+            <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse">
+                <div class="accordion-body">
+                    <div class="container-fluid row d-flex">
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+        <div class="row mb-1 mt-3 mb-2">
+            <div class="col-auto me-auto">
+                <SfButton CssClass="e-danger"
+                          style="background-color: #ef6a31" OnClick="toSupplementalForm">
+                    <span class="button-text-color; align-content-end; m-4">Back</span>
+                </SfButton>
+            </div>
+
+
+
+
+             <div class="col-auto">
+                <SfButton CssClass="e-danger" 
+                          style="background-color: #ef6a31" @onclick="@OpenOuterDialog">
+                          <span class="button-text-color; align-content-end; m-4">Submit</span>
+                </SfButton>
+             </div>
+
+<SfDialog CssClass="popupstyle" Height="200px"  Width="400px" ShowCloseIcon="false" IsModal="true" @bind-Visible="@IsOuterDialogVisible">
+   <DialogTemplates>
+        <Header><div class="dialog-header">Thank You</div></Header>
+       <Content>
+           <div class="dialog-content m-2">
+                Your Submission has been received. Please check your E-mail for confirmation
+                </div>
+          <DialogFooter>
+             <div class="row m-3 col align-self-center">
+              
+                    <SfButton CssClass= @onclick="@CloseInnerDialog"><span class="align-content-end; m-4">Back to Main Page</span></SfButton>       <!--@OpenInnerDialog use this if you need to open the tabe-->
+            </div>
+          </DialogFooter>
+    
+       </Content>
+   </DialogTemplates>
+ </SfDialog> 
+              
+        </div>
+    </div>
+
+</EditForm>
+
+
+@code {
+    ScheduleofFeeModel lastcopyrightmodel = new ScheduleofFeeModel();
+
+    bool isIndividualSelected = false;
+    void ToggleIndividualApplicant(bool isIndividual)
+    {
+        isIndividualSelected = isIndividual;
+    }
+
+    void HandleValidSubmit()
+    {
+        // Handle form submission
+    }
+}
+
+@code {
+    private async Task OnChange(UploadChangeEventArgs args)
+    {
+        try
+        {
+            foreach (var file in args.Files)
+            {
+                var path = @"" + file.FileInfo.Name;
+                FileStream filestream = new FileStream(path, FileMode.Create, FileAccess.Write);
+                await file.File.OpenReadStream(long.MaxValue).CopyToAsync(filestream);
+                filestream.Close();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+}
+
+@code {
+    private async Task RedirectToExternalUrl(string url)
+    {
+        await JSRuntime.InvokeVoidAsync("window.open", url, "_blank");
+    }
+    private async Task toSupplementalForm()
+    {
+        string externalUrl = "/";
+        await RedirectToExternalUrl(externalUrl);
+    }
+}
+
+@code {
+    private async Task RedirectToExternalUrlAlternative(string url)
+    {
+        await JSRuntime.InvokeVoidAsync("window.open", url, "_blank");
+    }
+    private async Task toSchedulefee()
+    {
+        string externalUrl = "/copyright-schedulefee-form";
+        await RedirectToExternalUrlAlternative(externalUrl);
+    }
+}
+
+
+ 
+
+
+ @code {
+    //for submit preview button with modal
+    private bool IsOuterDialogVisible { get; set; } = false;
+    private bool IsInnerDialogVisible { get; set; } = false;
+
+    private void OpenOuterDialog()
+    {
+        IsOuterDialogVisible = true;
+    }
+
+    private void OpenInnerDialog()
+    {
+        IsInnerDialogVisible = true;
+    }
+
+    private void CloseInnerDialog()
+    {
+        IsOuterDialogVisible = false;
+        IsInnerDialogVisible = false;
+    }
+}

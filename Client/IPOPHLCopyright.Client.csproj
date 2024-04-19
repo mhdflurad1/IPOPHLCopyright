@@ -7,9 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pages\ScheduleofFee.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Pages\ScheduleofFee.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazor.Bootstrap" Version="2.1.0" />
     <PackageReference Include="Blazored.Toast" Version="4.2.1" />
-    <PackageReference Include="BootstrapBlazor" Version="8.3.4" />
+    <PackageReference Include="BootstrapBlazor" Version="8.5.0" />
     <PackageReference Include="CsvHelper" Version="31.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.2" PrivateAssets="all" />
@@ -21,7 +29,8 @@
     <PackageReference Include="Syncfusion.Blazor.DropDowns" Version="23.1.42" />
     <PackageReference Include="Syncfusion.Blazor.Inputs" Version="25.1.35" />
     <PackageReference Include="Syncfusion.Blazor.Popups" Version="25.1.35" />
-    <PackageReference Include="Syncfusion.Blazor.Themes" Version="23.1.42" />
+    <PackageReference Include="Syncfusion.Blazor.Themes" Version="25.1.42" />
+    <PackageReference Include="Syncfusion.Maui.SignaturePad" Version="25.1.42" />
     <PackageReference Include="System.IO" Version="4.3.0" />
   </ItemGroup>
 
@@ -30,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
     <Folder Include="Controllers\" />
     <Folder Include="Services\" />
   </ItemGroup>
