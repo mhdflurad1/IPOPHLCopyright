@@ -13,15 +13,16 @@
 <div class="text-center text-uppercase title-text fw-bold">Transaction Form</div>
 <div class="text-center fw-normal fst-italic mb-1">Supplemental Sheet</div>
 
+
 <EditForm Model="@newcopyrightmodel" OnInvalidSubmit="@HandleValidSubmit">
     <DataAnnotationsValidator />
 
-    <div class="container-fluid mt-1">
+    <div class="container-fluid mt-2">
         <div class="row">
             <div class="col">
                 <div class="card">
                     <div class="card-header header-text">
-                        CO-AUTHOR / CREATOR INFORMATION
+                        SCHEDULE OF FEES
                     </div>
                     <div class="card-body">
                         <div class="container-fluid">
@@ -421,14 +422,3 @@
     };
 }
 
-
-    <!--private async Task RedirectToExternalUrl(string url)
-    {
-        //await JSRuntime.InvokeVoidAsync("window.open", url, "_blank");
-    }
-   // private async Task toIndex()
-    {
-        //string externalUrl = "/";
-        //await RedirectToExternalUrl(externalUrl);
-    }
-}

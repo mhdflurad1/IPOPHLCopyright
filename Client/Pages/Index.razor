@@ -10,6 +10,8 @@
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime;
 
+@using Syncfusion.Maui.Core.Hosting;
+@using Syncfusion.Maui.Popup;
 
 
 <PageTitle>IPOPHL | BCRRR Registration Form</PageTitle>
@@ -850,16 +852,17 @@
         </div>
         <!--End of the Accordion-->
         <div class="row mb-1 mt-3 mb-2">
-            <div class="col-3">
+            <div class="col-auto me-auto">
                 <SfButton CssClass="e-danger"
-                          style="background-color: #ef6a31" OnClick="toSupplementalForm">
+                          style="background-color: #ef6a31; width 100px" OnClick="toSupplementalForm">
                     <span class="button-text-color">Clear All</span>
                 </SfButton>
+            </div>
+            <div class="col-auto">
                 <SfButton CssClass="e-danger"
                           style="background-color: #ef6a31" OnClick="toSupplementalForm">
-                    <span class="button-text-color">Submit</span>
+                    <span class="button-text-color align-content-end">Submit</span>
                 </SfButton>
- 
             </div>
         </div>
 
@@ -955,6 +958,9 @@
         //[Required] Copy of Author/Creator/Performer Information
         public string ACPGender { get; set; } = null;
 
+
+
+       
     }
     CopyrightModel copyrightmodel = new CopyrightModel();
 
@@ -968,6 +974,8 @@
     {
         // Handle form submission
     }
+
+
 
 }
 
@@ -1174,6 +1182,13 @@
         await RedirectToExternalUrl(externalUrl);
     }
 }
+
+
+   
+
+
+
+
 
 
 

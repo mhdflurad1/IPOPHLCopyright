@@ -1,0 +1,270 @@
+﻿@page "/copyright-schedulefee-form"
+@inject HttpClient Http
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Data;
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons
+@using Blazored.Toast.Services
+@using System.ComponentModel.DataAnnotations;
+@using System.Collections.Generic;
+@using System.Threading.Tasks;
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime;
+
+@using Syncfusion.Maui.Core.Hosting;
+@using Syncfusion.Maui.Popup;
+
+<PageTitle>IPOPHL | BCRRR Supplemental Form</PageTitle>
+<div class="text-center text-uppercase title-text fw-bold">Transaction Form</div>
+<div class="text-center fw-normal fst-italic mb-1">Supplemental Sheet</div>
+
+<EditForm Model="@lastcopyrightmodel" OnInvalidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="container-fluid mt-1">
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header header-text">
+                        SCHEDULE OF FEES
+                    </div>
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-5">
+                                    <label>Copyright Deposit/Recordation</label>
+                                </div>
+                                <div class="col-7">
+                                    <label>Amendment/Correction</label>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-1 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            NCR
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-1 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Region
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-3 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Bulk, per certificate + NLP Trust-in-Fund
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-1 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            NCR
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-1 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Region
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-4 mt-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Bulk, per certificate + NLP Trust-in-Fund
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-5 mt-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Other Certification Requests (under IPOPHL general fees)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-3 mt-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Dispute Resolution (Author’s Rights)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-5 mt-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Certified True Copy of Certificate
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-7 mt-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Additional Copies of Original Certificate of Copyright Registration
+                                            (under IPOPHL general fees-Certification)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-5 mt-1">
+                                    <div class="form-check subtext">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Computer Printout, per printed sheet (under IPOPHL general fees)
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-7 mt-1">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" @bind="@lastcopyrightmodel.IsSmallType" value="" id="flexCheckSmallEnt" disabled="@isIndividualSelected">
+                                        <label class="form-check-label" for="flexCheckSmallEnt">
+                                            Reconstitution of Records- for lost/missing certificate of copyright
+                                            registration (under IPOPHL general fees)
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+
+@code {
+    class CopyrightModel
+    {
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantLName { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantFName { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantMName { get; set; }
+        //[Required]
+        public string ApplicantGender { get; set; } = null;
+        public string ApplicantMaritalStatus { get; set; } = null;
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantPosition { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string NameCompanyCorpGovASch { get; set; }
+        public bool IsSmallType { get; set; }
+        public bool IsBigType { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantAddress { get; set; }
+        public string ApplicantCountry { get; set; }
+        //public string ApplicantState { get; set; }
+        public string ApplicantCity { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantZipCode { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantMobNum { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string ApplicantEmailAdd { get; set; }
+        ////[Required]
+        public string ApplicantNationality { get; set; }
+
+
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RALName { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAFName { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAMName { get; set; }
+        ////[Required]
+        //public GenderSelect? RAGender { get; set; } = null;
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAPosition { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAAddress { get; set; }
+        //public string RACountry { get; set; }
+        //public string RAState { get; set; }
+        //public string RACity { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAZipCode { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAMobNum { get; set; }
+        ////[Required(ErrorMessage = "This field is required.")]
+        public string RAEmailAdd { get; set; }
+        ////[Required]
+        public string RANationality { get; set; }
+
+        ////[Required]
+        public string NClass { get; set; }
+        //[Required(ErrorMessage = "This field is required.")]
+        public string GSComments { get; set; }
+
+        ////[Required]
+        public string ApplicantType { get; set; }
+        public bool IsIndividual { get; set; }
+
+        //[Required]
+        public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
+
+        //[Required]
+        public string PlaceCreation { get; set; }
+
+        //[Required]
+        public string ClassificationWork { get; set; }
+
+        //[Required]
+        public string IPSO { get; set; }
+
+        //[Required]
+        public string NPL0ffice { get; set; }
+
+        //[Required] Copy of Author/Creator/Performer Information
+        public string ACPMaritalStatus { get; set; } = null;
+
+        //[Required] Copy of Author/Creator/Performer Information
+        public string ACPGender { get; set; } = null;
+
+    }
+    CopyrightModel lastcopyrightmodel = new CopyrightModel();
+
+    bool isIndividualSelected = false;
+    void ToggleIndividualApplicant(bool isIndividual)
+    {
+        isIndividualSelected = isIndividual;
+    }
+
+    void HandleValidSubmit()
+    {
+        // Handle form submission
+    }
+}
+    
+
+        
+
+
+    
+
+
+
